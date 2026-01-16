@@ -1,0 +1,9 @@
+{
+    "TEST001": {
+        "nombre": "Test Provider",
+        "contacto": "Test Contact",
+        "telefono": "123-4567",
+        "email": "test@email.com",
+        "direccion": "Test Address"
+    }
+}

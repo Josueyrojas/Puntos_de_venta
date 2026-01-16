@@ -1,0 +1,9 @@
+{
+    "TEST": {
+        "nombre": "Test",
+        "telefono": "123",
+        "email": "invalid-email",
+        "direccion": "Dir",
+        "rfc": "INVALID"
+    }
+}

@@ -1,0 +1,330 @@
+{
+    "7501234567890": {
+        "codigo_producto": "HERR001",
+        "codigo_proveedor": "N/A",
+        "nombre": "Martillo de Garra 16oz",
+        "precio": 150.5,
+        "stock": 25,
+        "descripcion": "Martillo profesional con mango de fibra de vidrio"
+    },
+    "7501234567891": {
+        "codigo_producto": "HERR002",
+        "codigo_proveedor": "PROV001",
+        "nombre": "Desarmador Plano 6 pulgadas",
+        "precio": 45.0,
+        "stock": 50,
+        "descripcion": "Desarmador plano profesional punta magnetizada"
+    },
+    "7501234567892": {
+        "codigo_producto": "HERR003",
+        "codigo_proveedor": "PROV002",
+        "nombre": "Desarmador Phillips #2",
+        "precio": 48.0,
+        "stock": 45,
+        "descripcion": "Desarmador phillips con mango ergonomico"
+    },
+    "7501234567893": {
+        "codigo_producto": "HERR004",
+        "codigo_proveedor": "PROV001",
+        "nombre": "Pinzas de Electricista 8 pulgadas",
+        "precio": 89.5,
+        "stock": 30,
+        "descripcion": "Pinzas profesionales con aislamiento"
+    },
+    "7501234567894": {
+        "codigo_producto": "HERR005",
+        "codigo_proveedor": "PROV003",
+        "nombre": "Llave Inglesa 10 pulgadas",
+        "precio": 125.0,
+        "stock": 20,
+        "descripcion": "Llave ajustable cromada"
+    },
+    "7501234567895": {
+        "codigo_producto": "HERR006",
+        "codigo_proveedor": "PROV002",
+        "nombre": "Cinta Metrica 5 metros",
+        "precio": 67.0,
+        "stock": 40,
+        "descripcion": "Cinta metrica con freno automatico"
+    },
+    "7501234567896": {
+        "codigo_producto": "HERR007",
+        "codigo_proveedor": "PROV001",
+        "nombre": "Sierra para Madera 18 pulgadas",
+        "precio": 95.0,
+        "stock": 15,
+        "descripcion": "Sierra de carpintero con dientes templados"
+    },
+    "7501234567897": {
+        "codigo_producto": "HERR008",
+        "codigo_proveedor": "PROV003",
+        "nombre": "Nivel de Burbuja 24 pulgadas",
+        "precio": 78.5,
+        "stock": 22,
+        "descripcion": "Nivel de aluminio con 3 burbujas"
+    },
+    "7501234567898": {
+        "codigo_producto": "HERR009",
+        "codigo_proveedor": "PROV002",
+        "nombre": "Llave Stillson 12 pulgadas",
+        "precio": 145.0,
+        "stock": 18,
+        "descripcion": "Llave para tuberia acabado cromado"
+    },
+    "7501234567899": {
+        "codigo_producto": "HERR010",
+        "codigo_proveedor": "PROV001",
+        "nombre": "Alicate de Corte 6 pulgadas",
+        "precio": 56.0,
+        "stock": 35,
+        "descripcion": "Alicate cortador lateral profesional"
+    },
+    "7501234567900": {
+        "codigo_producto": "FIJA001",
+        "codigo_proveedor": "PROV004",
+        "nombre": "Tornillos 1/4 x 1 (Caja 100pz)",
+        "precio": 35.0,
+        "stock": 100,
+        "descripcion": "Tornillos galvanizados para madera"
+    },
+    "7501234567901": {
+        "codigo_producto": "FIJA002",
+        "codigo_proveedor": "PROV004",
+        "nombre": "Tornillos 1/4 x 2 (Caja 100pz)",
+        "precio": 42.0,
+        "stock": 80,
+        "descripcion": "Tornillos autorroscantes galvanizados"
+    },
+    "7501234567902": {
+        "codigo_producto": "FIJA003",
+        "codigo_proveedor": "PROV004",
+        "nombre": "Clavos 2 pulgadas (Caja 500g)",
+        "precio": 28.0,
+        "stock": 120,
+        "descripcion": "Clavos de acero para construccion"
+    },
+    "7501234567903": {
+        "codigo_producto": "FIJA004",
+        "codigo_proveedor": "PROV004",
+        "nombre": "Clavos 3 pulgadas (Caja 500g)",
+        "precio": 32.0,
+        "stock": 95,
+        "descripcion": "Clavos galvanizados uso rudo"
+    },
+    "7501234567904": {
+        "codigo_producto": "FIJA005",
+        "codigo_proveedor": "PROV005",
+        "nombre": "Taquetes Plasticos #8 (Bolsa 50pz)",
+        "precio": 15.0,
+        "stock": 150,
+        "descripcion": "Taquetes expansivos para concreto"
+    },
+    "7501234567905": {
+        "codigo_producto": "MATE001",
+        "codigo_proveedor": "PROV006",
+        "nombre": "Cemento Gris 50kg",
+        "precio": 185.0,
+        "stock": 45,
+        "descripcion": "Cemento Portland uso general"
+    },
+    "7501234567906": {
+        "codigo_producto": "MATE002",
+        "codigo_proveedor": "PROV006",
+        "nombre": "Cal Hidratada 20kg",
+        "precio": 75.0,
+        "stock": 60,
+        "descripcion": "Cal hidratada tipo N para mortero"
+    },
+    "7501234567907": {
+        "codigo_producto": "MATE003",
+        "codigo_proveedor": "PROV007",
+        "nombre": "Arena de Rio (Bulto)",
+        "precio": 45.0,
+        "stock": 30,
+        "descripcion": "Arena lavada para construccion"
+    },
+    "7501234567908": {
+        "codigo_producto": "MATE004",
+        "codigo_proveedor": "PROV007",
+        "nombre": "Grava 3/4 (Bulto)",
+        "precio": 55.0,
+        "stock": 25,
+        "descripcion": "Grava cribada para concreto"
+    },
+    "7501234567909": {
+        "codigo_producto": "PINT001",
+        "codigo_proveedor": "PROV008",
+        "nombre": "Pintura Vinilica Blanca 4L",
+        "precio": 245.0,
+        "stock": 20,
+        "descripcion": "Pintura lavable para interiores"
+    },
+    "7501234567910": {
+        "codigo_producto": "PINT002",
+        "codigo_proveedor": "PROV008",
+        "nombre": "Pintura Vinilica Beige 4L",
+        "precio": 245.0,
+        "stock": 18,
+        "descripcion": "Pintura lavable color beige"
+    },
+    "7501234567911": {
+        "codigo_producto": "PINT003",
+        "codigo_proveedor": "PROV008",
+        "nombre": "Thinner Acrilico 1L",
+        "precio": 48.0,
+        "stock": 40,
+        "descripcion": "Disolvente para pinturas acrilicas"
+    },
+    "7501234567912": {
+        "codigo_producto": "PINT004",
+        "codigo_proveedor": "PROV008",
+        "nombre": "Brocha 2 pulgadas",
+        "precio": 35.0,
+        "stock": 50,
+        "descripcion": "Brocha profesional cerda sintetica"
+    },
+    "7501234567913": {
+        "codigo_producto": "PINT005",
+        "codigo_proveedor": "PROV008",
+        "nombre": "Brocha 3 pulgadas",
+        "precio": 45.0,
+        "stock": 45,
+        "descripcion": "Brocha para pintura latex"
+    },
+    "7501234567914": {
+        "codigo_producto": "PINT006",
+        "codigo_proveedor": "PROV008",
+        "nombre": "Rodillo Espuma 9 pulgadas",
+        "precio": 55.0,
+        "stock": 35,
+        "descripcion": "Rodillo con mango ergonomico"
+    },
+    "7501234567915": {
+        "codigo_producto": "ELEC001",
+        "codigo_proveedor": "PROV009",
+        "nombre": "Cable Calibre 12 AWG (Metro)",
+        "precio": 12.5,
+        "stock": 500,
+        "descripcion": "Cable electrico uso rudo THW"
+    },
+    "7501234567916": {
+        "codigo_producto": "ELEC002",
+        "codigo_proveedor": "PROV009",
+        "nombre": "Cable Calibre 14 AWG (Metro)",
+        "precio": 9.5,
+        "stock": 600,
+        "descripcion": "Cable electrico residencial THW"
+    },
+    "7501234567917": {
+        "codigo_producto": "ELEC003",
+        "codigo_proveedor": "PROV009",
+        "nombre": "Apagador Sencillo",
+        "precio": 18.0,
+        "stock": 80,
+        "descripcion": "Apagador 15A 127V color blanco"
+    },
+    "7501234567918": {
+        "codigo_producto": "ELEC004",
+        "codigo_proveedor": "PROV009",
+        "nombre": "Contacto Doble",
+        "precio": 22.0,
+        "stock": 75,
+        "descripcion": "Contacto polarizado 15A 127V"
+    },
+    "7501234567919": {
+        "codigo_producto": "ELEC005",
+        "codigo_proveedor": "PROV009",
+        "nombre": "Foco LED 9W Luz Blanca",
+        "precio": 45.0,
+        "stock": 100,
+        "descripcion": "Foco LED alta eficiencia 6500K"
+    },
+    "7501234567920": {
+        "codigo_producto": "ELEC006",
+        "codigo_proveedor": "PROV009",
+        "nombre": "Foco LED 12W Luz Blanca",
+        "precio": 58.0,
+        "stock": 85,
+        "descripcion": "Foco LED 12W equivalente 100W"
+    },
+    "7501234567921": {
+        "codigo_producto": "TUBE001",
+        "codigo_proveedor": "PROV010",
+        "nombre": "Tubo PVC 1/2 x 3m",
+        "precio": 35.0,
+        "stock": 40,
+        "descripcion": "Tubo PVC hidraulico cedula 40"
+    },
+    "7501234567922": {
+        "codigo_producto": "TUBE002",
+        "codigo_proveedor": "PROV010",
+        "nombre": "Tubo PVC 3/4 x 3m",
+        "precio": 48.0,
+        "stock": 35,
+        "descripcion": "Tubo PVC presion 10kg/cm2"
+    },
+    "7501234567923": {
+        "codigo_producto": "TUBE003",
+        "codigo_proveedor": "PROV010",
+        "nombre": "Codo PVC 1/2",
+        "precio": 4.5,
+        "stock": 200,
+        "descripcion": "Codo 90 grados cementar"
+    },
+    "7501234567924": {
+        "codigo_producto": "TUBE004",
+        "codigo_proveedor": "PROV010",
+        "nombre": "Codo PVC 3/4",
+        "precio": 6.5,
+        "stock": 180,
+        "descripcion": "Codo 90 grados hidraulico"
+    },
+    "7501234567925": {
+        "codigo_producto": "TUBE005",
+        "codigo_proveedor": "PROV010",
+        "nombre": "Llave de Paso 1/2",
+        "precio": 85.0,
+        "stock": 25,
+        "descripcion": "Llave esferica bronce cromado"
+    },
+    "7501234567926": {
+        "codigo_producto": "SEGU001",
+        "codigo_proveedor": "PROV011",
+        "nombre": "Guantes de Carnaza",
+        "precio": 45.0,
+        "stock": 60,
+        "descripcion": "Guantes uso industrial reforzados"
+    },
+    "7501234567927": {
+        "codigo_producto": "SEGU002",
+        "codigo_proveedor": "PROV011",
+        "nombre": "Lentes de Seguridad Transparentes",
+        "precio": 38.0,
+        "stock": 50,
+        "descripcion": "Lentes con proteccion UV"
+    },
+    "7501234567928": {
+        "codigo_producto": "SEGU003",
+        "codigo_proveedor": "PROV011",
+        "nombre": "Casco de Seguridad Blanco",
+        "precio": 125.0,
+        "stock": 30,
+        "descripcion": "Casco tipo jockey clase G"
+    },
+    "7501234567929": {
+        "codigo_producto": "SEGU004",
+        "codigo_proveedor": "PROV011",
+        "nombre": "Chaleco Reflejante",
+        "precio": 85.0,
+        "stock": 40,
+        "descripcion": "Chaleco alta visibilidad naranja"
+    },
+    "7501234567930": {
+        "codigo_producto": "SEGU005",
+        "codigo_proveedor": "PROV011",
+        "nombre": "Tapones Auditivos (Par)",
+        "precio": 12.0,
+        "stock": 100,
+        "descripcion": "Tapones de espuma desechables"
+    }
+}
