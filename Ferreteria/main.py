@@ -1113,20 +1113,32 @@ class PuntoVenta:
     
     def generar_plantilla_inventario(self):
         """Genera plantilla CSV para inventario"""
-        exito, mensaje = self.gestor_inventario.generar_plantilla_csv() if hasattr(self.gestor_inventario, 'generar_plantilla_csv') else (False, "Función no disponible")
-        if exito:
-            messagebox.showinfo("Éxito", mensaje)
-        else:
-            messagebox.showerror("Error", mensaje)
+        ruta = filedialog.asksaveasfilename(
+            defaultextension=".csv",
+            filetypes=[("Archivos CSV", "*.csv"), ("Todos los archivos", "*.*")],
+            initialfile="plantilla_inventario.csv"
+        )
+        if ruta:
+            exito, mensaje = self.gestor_inventario.generar_plantilla_csv(ruta)
+            if exito:
+                messagebox.showinfo("Éxito", mensaje)
+            else:
+                messagebox.showerror("Error", mensaje)
     
     def importar_clientes_csv(self):
-        """Importa clientes desde CSV"""
+        """Importa clientes desde CSV o XLSX"""
         ruta = filedialog.askopenfilename(
-            filetypes=[("Archivos CSV", "*.csv"), ("Todos los archivos", "*.*")]
+            filetypes=[("Archivos CSV/XLSX", "*.csv *.xlsx"), ("CSV", "*.csv"), ("Excel", "*.xlsx"), ("Todos los archivos", "*.*")]
         )
         if ruta:
             respuesta = messagebox.askyesno("Importar", "¿Desea sobrescribir los clientes existentes?")
-            exito, mensaje = self.gestor_clientes.importar_clientes_csv(ruta, respuesta)
+            
+            # Detectar formato por extensión
+            if ruta.lower().endswith('.xlsx'):
+                exito, mensaje = self.gestor_clientes.importar_clientes_xlsx(ruta, respuesta)
+            else:
+                exito, mensaje = self.gestor_clientes.importar_clientes_csv(ruta, respuesta)
+            
             if exito:
                 messagebox.showinfo("Éxito", mensaje)
                 self.actualizar_tabla_clientes()
@@ -1134,13 +1146,18 @@ class PuntoVenta:
                 messagebox.showerror("Error", mensaje)
     
     def exportar_clientes_csv(self):
-        """Exporta clientes a CSV"""
+        """Exporta clientes a CSV o XLSX"""
         ruta = filedialog.asksaveasfilename(
-            defaultextension=".csv",
-            filetypes=[("Archivos CSV", "*.csv"), ("Todos los archivos", "*.*")]
+            filetypes=[("Excel", "*.xlsx"), ("CSV", "*.csv"), ("Todos los archivos", "*.*")],
+            defaultextension=".xlsx"
         )
         if ruta:
-            exito, mensaje = self.gestor_clientes.exportar_clientes_csv(ruta)
+            # Detectar formato por extensión
+            if ruta.lower().endswith('.xlsx'):
+                exito, mensaje = self.gestor_clientes.exportar_clientes_xlsx(ruta)
+            else:
+                exito, mensaje = self.gestor_clientes.exportar_clientes_csv(ruta)
+            
             if exito:
                 messagebox.showinfo("Éxito", mensaje)
             else:
@@ -1148,20 +1165,32 @@ class PuntoVenta:
     
     def generar_plantilla_clientes(self):
         """Genera plantilla CSV para clientes"""
-        exito, mensaje = self.gestor_clientes.generar_plantilla_csv()
-        if exito:
-            messagebox.showinfo("Éxito", mensaje)
-        else:
-            messagebox.showerror("Error", mensaje)
+        ruta = filedialog.asksaveasfilename(
+            defaultextension=".csv",
+            filetypes=[("Archivos CSV", "*.csv"), ("Todos los archivos", "*.*")],
+            initialfile="plantilla_clientes.csv"
+        )
+        if ruta:
+            exito, mensaje = self.gestor_clientes.generar_plantilla_csv(ruta)
+            if exito:
+                messagebox.showinfo("Éxito", mensaje)
+            else:
+                messagebox.showerror("Error", mensaje)
     
     def importar_proveedores_csv(self):
-        """Importa proveedores desde CSV"""
+        """Importa proveedores desde CSV o XLSX"""
         ruta = filedialog.askopenfilename(
-            filetypes=[("Archivos CSV", "*.csv"), ("Todos los archivos", "*.*")]
+            filetypes=[("Archivos CSV/XLSX", "*.csv *.xlsx"), ("CSV", "*.csv"), ("Excel", "*.xlsx"), ("Todos los archivos", "*.*")]
         )
         if ruta:
             respuesta = messagebox.askyesno("Importar", "¿Desea sobrescribir los proveedores existentes?")
-            exito, mensaje = self.gestor_proveedores.importar_proveedores_csv(ruta, respuesta)
+            
+            # Detectar formato por extensión
+            if ruta.lower().endswith('.xlsx'):
+                exito, mensaje = self.gestor_proveedores.importar_proveedores_xlsx(ruta, respuesta)
+            else:
+                exito, mensaje = self.gestor_proveedores.importar_proveedores_csv(ruta, respuesta)
+            
             if exito:
                 messagebox.showinfo("Éxito", mensaje)
                 self.actualizar_tabla_proveedores()
@@ -1170,13 +1199,18 @@ class PuntoVenta:
                 messagebox.showerror("Error", mensaje)
     
     def exportar_proveedores_csv(self):
-        """Exporta proveedores a CSV"""
+        """Exporta proveedores a CSV o XLSX"""
         ruta = filedialog.asksaveasfilename(
-            defaultextension=".csv",
-            filetypes=[("Archivos CSV", "*.csv"), ("Todos los archivos", "*.*")]
+            filetypes=[("Excel", "*.xlsx"), ("CSV", "*.csv"), ("Todos los archivos", "*.*")],
+            defaultextension=".xlsx"
         )
         if ruta:
-            exito, mensaje = self.gestor_proveedores.exportar_proveedores_csv(ruta)
+            # Detectar formato por extensión
+            if ruta.lower().endswith('.xlsx'):
+                exito, mensaje = self.gestor_proveedores.exportar_proveedores_xlsx(ruta)
+            else:
+                exito, mensaje = self.gestor_proveedores.exportar_proveedores_csv(ruta)
+            
             if exito:
                 messagebox.showinfo("Éxito", mensaje)
             else:
@@ -1184,11 +1218,17 @@ class PuntoVenta:
     
     def generar_plantilla_proveedores(self):
         """Genera plantilla CSV para proveedores"""
-        exito, mensaje = self.gestor_proveedores.generar_plantilla_csv()
-        if exito:
-            messagebox.showinfo("Éxito", mensaje)
-        else:
-            messagebox.showerror("Error", mensaje)
+        ruta = filedialog.asksaveasfilename(
+            defaultextension=".csv",
+            filetypes=[("Archivos CSV", "*.csv"), ("Todos los archivos", "*.*")],
+            initialfile="plantilla_proveedores.csv"
+        )
+        if ruta:
+            exito, mensaje = self.gestor_proveedores.generar_plantilla_csv(ruta)
+            if exito:
+                messagebox.showinfo("Éxito", mensaje)
+            else:
+                messagebox.showerror("Error", mensaje)
     
     def crear_frame_tabla(self, parent):
         """Crea el frame con la tabla de productos"""

@@ -1,9 +1,32 @@
 {
-    "TEST": {
-        "nombre": "Test",
-        "telefono": "123",
-        "email": "invalid-email",
-        "direccion": "Dir",
-        "rfc": "INVALID"
-    }
+  "XAXX010101000": {
+    "razon_social": "Cliente Ejemplo",
+    "regimen_fiscal": "General",
+    "uso_cfdi": "Gastos",
+    "codigo_postal": "01000",
+    "direccion_fiscal": "Calle Test 123",
+    "estado": "CDMX",
+    "ciudad": "Mexico",
+    "municipio": "Benito Juarez",
+    "colonia": "Centro",
+    "telefono": "5551234567",
+    "correo": "test@test.com",
+    "fecha_registro": "2026-01-16 00:30:12",
+    "fecha_actualizacion": "2026-01-16 00:30:12"
+  },
+  "ABC123456DEF": {
+    "razon_social": "Otro Cliente",
+    "regimen_fiscal": "General",
+    "uso_cfdi": "",
+    "codigo_postal": "28001",
+    "direccion_fiscal": "",
+    "estado": "",
+    "ciudad": "",
+    "municipio": "",
+    "colonia": "",
+    "telefono": "",
+    "correo": "email@test.com",
+    "fecha_registro": "2026-01-16 00:27:11",
+    "fecha_actualizacion": "2026-01-16 00:27:11"
+  }
 }

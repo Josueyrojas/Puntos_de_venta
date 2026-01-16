@@ -6,6 +6,7 @@ import json
 import os
 import csv
 import re
+from openpyxl import Workbook, load_workbook
 
 def validar_email(email: str) -> bool:
     """Valida el formato de un correo electronico"""
@@ -390,6 +391,58 @@ class Gestor_Inventario:
                 resultados.append((codigo_barras, producto))
         
         return resultados
+    
+    def generar_plantilla_csv(self, ruta: str = 'plantilla_inventario.csv') -> Tuple[bool, str]:
+        """Genera un archivo CSV de plantilla con los campos requeridos para inventario"""
+        try:
+            campos = [
+                'Codigo Barras',
+                'Codigo',
+                'Numero Producto',
+                'Nombre',
+                'Descripcion',
+                'Clasificacion',
+                'Precio Minorista',
+                'Precio Mayoreo',
+                'Costo',
+                'Proveedor',
+                'Unidad',
+                'Fabricante',
+                'Tipo',
+                'Codigo A',
+                'Codigo B',
+                'Codigo C',
+                'Stock'
+            ]
+            
+            with open(ruta, 'w', newline='', encoding='utf-8-sig') as f:
+                writer = csv.writer(f)
+                writer.writerow(campos)
+                # Agregar una fila de ejemplo
+                writer.writerow([
+                    '7501234567890',
+                    'PROD001',
+                    '001',
+                    'Producto Ejemplo',
+                    'Descripción del producto ejemplo',
+                    'Herramientas',
+                    '100.00',
+                    '85.00',
+                    '50.00',
+                    'Distribuidor Central',
+                    'pz',
+                    'Fabricante Ejemplo',
+                    'Tipo A',
+                    'COD-A-001',
+                    'COD-B-001',
+                    'COD-C-001',
+                    '50'
+                ])
+            
+            return (True, f"Plantilla generada: {ruta}")
+        
+        except Exception as e:
+            return (False, f"Error al generar plantilla: {str(e)}")
 
 
 class GestorVentas:
@@ -1087,38 +1140,25 @@ class GestorProveedores:
             with open(ruta, 'r', encoding='utf-8-sig') as f:
                 reader = csv.DictReader(f)
                 
-                # Verificar campos mínimos
-                campos_requeridos = ['ID Proveedor', 'Alias', 'Razon Social', 'Telefono']
+                # Verificar campos mínimos - solo ID Proveedor es obligatorio
+                campos_requeridos = ['ID Proveedor']
                 if not all(campo in reader.fieldnames for campo in campos_requeridos):
                     return (False, f"El CSV debe contener los campos: {', '.join(campos_requeridos)}")
                 
                 for i, fila in enumerate(reader, start=2):
                     try:
                         id_prov = fila.get('ID Proveedor', '').strip().upper()
-                        alias = fila.get('Alias', '').strip()
-                        razon_social = fila.get('Razon Social', '').strip()
-                        telefono = fila.get('Telefono', '').strip()
                         
-                        # Validaciones básicas
+                        # Solo validar que ID de proveedor no sea vacío
                         if not id_prov:
                             errores.append(f"Línea {i}: ID de proveedor vacío")
                             proveedores_omitidos += 1
                             continue
                         
-                        if not alias:
-                            errores.append(f"Línea {i}: Alias vacío")
-                            proveedores_omitidos += 1
-                            continue
-                        
-                        if not razon_social:
-                            errores.append(f"Línea {i}: Razón social vacía")
-                            proveedores_omitidos += 1
-                            continue
-                        
-                        if not telefono:
-                            errores.append(f"Línea {i}: Teléfono vacío")
-                            proveedores_omitidos += 1
-                            continue
+                        # Obtener todos los campos, permitiendo blancos
+                        alias = fila.get('Alias', '').strip()
+                        razon_social = fila.get('Razon Social', '').strip()
+                        telefono = fila.get('Telefono', '').strip()
                         
                         # Solo importar si no existe o si se permite sobrescribir
                         if sobrescribir or id_prov not in self.proveedores:
@@ -1216,6 +1256,143 @@ class GestorProveedores:
         
         except Exception as e:
             return (False, f"Error al generar plantilla: {str(e)}")
+    
+    def exportar_proveedores_xlsx(self, ruta: str = 'proveedores_exportados.xlsx', solo_activos: bool = True) -> Tuple[bool, str]:
+        """Exporta proveedores a un archivo XLSX"""
+        try:
+            proveedores_a_exportar = self.proveedores
+            
+            if solo_activos:
+                proveedores_a_exportar = {
+                    id_prov: prov 
+                    for id_prov, prov in self.proveedores.items() 
+                    if prov.get('activo', True)
+                }
+            
+            if not proveedores_a_exportar:
+                return (False, "No hay proveedores para exportar")
+            
+            wb = Workbook()
+            ws = wb.active
+            ws.title = "Proveedores"
+            
+            # Encabezados
+            campos = ['ID Proveedor', 'Alias', 'RFC', 'Razon Social', 'Personal', 'Telefono',
+                     'Codigo Postal', 'Estado', 'Ciudad', 'Municipio', 'Colonia', 'Direccion',
+                     'Fax', 'Correo', 'Pagina Web', 'Tipo Pago', 'Condiciones', 'Activo']
+            ws.append(campos)
+            
+            # Datos
+            for id_prov, proveedor in proveedores_a_exportar.items():
+                ws.append([
+                    id_prov,
+                    proveedor.get('alias', ''),
+                    proveedor.get('rfc', ''),
+                    proveedor.get('razon_social', ''),
+                    proveedor.get('personal', ''),
+                    proveedor.get('telefono', ''),
+                    proveedor.get('codigo_postal', ''),
+                    proveedor.get('estado', ''),
+                    proveedor.get('ciudad', ''),
+                    proveedor.get('municipio', ''),
+                    proveedor.get('colonia', ''),
+                    proveedor.get('direccion', ''),
+                    proveedor.get('fax', ''),
+                    proveedor.get('correo', ''),
+                    proveedor.get('pagina_web', ''),
+                    proveedor.get('tipo_pago', ''),
+                    proveedor.get('condiciones', ''),
+                    'SI' if proveedor.get('activo', True) else 'NO'
+                ])
+            
+            wb.save(ruta)
+            return (True, f"Proveedores exportados exitosamente: {ruta}")
+        
+        except Exception as e:
+            return (False, f"Error al exportar proveedores a XLSX: {str(e)}")
+    
+    def importar_proveedores_xlsx(self, ruta: str, sobrescribir: bool = False) -> Tuple[bool, str]:
+        """Importa proveedores desde un archivo XLSX"""
+        try:
+            if not os.path.exists(ruta):
+                return (False, f"Archivo no encontrado: {ruta}")
+            
+            proveedores_importados = 0
+            proveedores_omitidos = 0
+            errores = []
+            
+            wb = load_workbook(ruta)
+            ws = wb.active
+            
+            # Obtener encabezados
+            headers = [cell.value for cell in ws[1]]
+            
+            # Validar campos mínimos
+            campos_requeridos = ['ID Proveedor']
+            if not all(campo in headers for campo in campos_requeridos):
+                return (False, f"El XLSX debe contener los campos: {', '.join(campos_requeridos)}")
+            
+            # Procesar filas
+            for i, row in enumerate(ws.iter_rows(min_row=2, values_only=True), start=2):
+                try:
+                    # Crear diccionario de fila
+                    fila = dict(zip(headers, row))
+                    
+                    id_prov = str(fila.get('ID Proveedor', '')).strip().upper() if fila.get('ID Proveedor') else ''
+                    
+                    # Validación
+                    if not id_prov:
+                        errores.append(f"Línea {i}: ID de proveedor vacío")
+                        proveedores_omitidos += 1
+                        continue
+                    
+                    # Obtener campos opcionales
+                    alias = str(fila.get('Alias', '')).strip() if fila.get('Alias') else ''
+                    razon_social = str(fila.get('Razon Social', '')).strip() if fila.get('Razon Social') else ''
+                    telefono = str(fila.get('Telefono', '')).strip() if fila.get('Telefono') else ''
+                    
+                    # Importar proveedor
+                    if sobrescribir or id_prov not in self.proveedores:
+                        self.proveedores[id_prov] = {
+                            'alias': alias,
+                            'rfc': str(fila.get('RFC', '')).strip().upper() if fila.get('RFC') else '',
+                            'razon_social': razon_social,
+                            'personal': str(fila.get('Personal', '')).strip() if fila.get('Personal') else '',
+                            'telefono': telefono,
+                            'codigo_postal': str(fila.get('Codigo Postal', '')).strip() if fila.get('Codigo Postal') else '',
+                            'estado': str(fila.get('Estado', '')).strip() if fila.get('Estado') else '',
+                            'ciudad': str(fila.get('Ciudad', '')).strip() if fila.get('Ciudad') else '',
+                            'municipio': str(fila.get('Municipio', '')).strip() if fila.get('Municipio') else '',
+                            'colonia': str(fila.get('Colonia', '')).strip() if fila.get('Colonia') else '',
+                            'direccion': str(fila.get('Direccion', '')).strip() if fila.get('Direccion') else '',
+                            'fax': str(fila.get('Fax', '')).strip() if fila.get('Fax') else '',
+                            'correo': str(fila.get('Correo', '')).strip() if fila.get('Correo') else '',
+                            'pagina_web': str(fila.get('Pagina Web', '')).strip() if fila.get('Pagina Web') else '',
+                            'tipo_pago': str(fila.get('Tipo Pago', 'mensual')).strip().lower() if fila.get('Tipo Pago') else 'mensual',
+                            'condiciones': str(fila.get('Condiciones', '')).strip() if fila.get('Condiciones') else '',
+                            'fecha_registro': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+                            'fecha_actualizacion': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+                            'activo': True if str(fila.get('Activo', 'SI')).strip().upper() == 'SI' else False
+                        }
+                        proveedores_importados += 1
+                    else:
+                        proveedores_omitidos += 1
+                        
+                except Exception as e:
+                    errores.append(f"Línea {i}: Error procesando fila - {str(e)}")
+                    proveedores_omitidos += 1
+            
+            if proveedores_importados > 0:
+                self.guardar_proveedores()
+            
+            mensaje = f"Importación XLSX completada: {proveedores_importados} proveedores importados, {proveedores_omitidos} omitidos"
+            if errores:
+                mensaje += f"\nErrores encontrados:\n" + "\n".join(errores[:10])
+            
+            return (True if proveedores_importados > 0 else False, mensaje)
+        
+        except Exception as e:
+            return (False, f"Error al importar XLSX: {str(e)}")
     
     def obtener_proveedores_por_tipo_pago(self, tipo_pago: str) -> List[Dict]:
         """Obtiene proveedores por tipo de pago"""
@@ -1549,8 +1726,8 @@ class GestorClientes:
             with open(ruta, 'r', encoding='utf-8-sig') as f:
                 reader = csv.DictReader(f)
                 
-                # Verificar campos mínimos
-                campos_requeridos = ['RFC', 'Razon Social', 'Telefono', 'Codigo Postal']
+                # Verificar campos mínimos - solo RFC y Razon Social son obligatorios
+                campos_requeridos = ['RFC', 'Razon Social']
                 if not all(campo in reader.fieldnames for campo in campos_requeridos):
                     return (False, f"El CSV debe contener los campos: {', '.join(campos_requeridos)}")
                 
@@ -1558,22 +1735,22 @@ class GestorClientes:
                     try:
                         rfc = fila.get('RFC', '').strip().upper()
                         razon_social = fila.get('Razon Social', '').strip()
-                        telefono = fila.get('Telefono', '').strip()
                         codigo_postal = fila.get('Codigo Postal', '').strip()
                         
-                        # Validaciones básicas
-                        if not rfc or not validar_rfc(rfc):
-                            errores.append(f"Línea {i}: RFC inválido o vacío")
+                        # Validaciones básicas - RFC puede ser genérico o XAXX010101000
+                        if not rfc:
+                            errores.append(f"Línea {i}: RFC vacío")
+                            clientes_omitidos += 1
+                            continue
+                        
+                        # Aceptar RFCs genéricos también
+                        if not validar_rfc(rfc) and rfc.upper() != 'XAXX010101000':
+                            errores.append(f"Línea {i}: RFC inválido")
                             clientes_omitidos += 1
                             continue
                         
                         if not razon_social:
                             errores.append(f"Línea {i}: Razón social vacía")
-                            clientes_omitidos += 1
-                            continue
-                        
-                        if not telefono:
-                            errores.append(f"Línea {i}: Teléfono vacío")
                             clientes_omitidos += 1
                             continue
                         
@@ -1589,7 +1766,7 @@ class GestorClientes:
                                 'ciudad': fila.get('Ciudad', '').strip(),
                                 'municipio': fila.get('Municipio', '').strip(),
                                 'colonia': fila.get('Colonia', '').strip(),
-                                'telefono': telefono,
+                                'telefono': fila.get('Telefono', '').strip(),
                                 'correo': fila.get('Correo', '').strip(),
                                 'fecha_registro': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
                                 'fecha_actualizacion': datetime.now().strftime('%Y-%m-%d %H:%M:%S')
@@ -1655,6 +1832,128 @@ class GestorClientes:
         
         except Exception as e:
             return (False, f"Error al generar plantilla: {str(e)}")
+    
+    def exportar_clientes_xlsx(self, ruta: str = 'clientes_exportados.xlsx') -> Tuple[bool, str]:
+        """Exporta clientes a un archivo XLSX"""
+        try:
+            if not self.clientes:
+                return (False, "No hay clientes para exportar")
+            
+            wb = Workbook()
+            ws = wb.active
+            ws.title = "Clientes"
+            
+            # Encabezados
+            campos = ['RFC', 'Razon Social', 'Regimen Fiscal', 'Uso CFDI', 'Codigo Postal',
+                     'Direccion Fiscal', 'Estado', 'Ciudad', 'Municipio', 'Colonia', 'Telefono', 'Correo']
+            ws.append(campos)
+            
+            # Datos
+            for rfc, cliente in self.clientes.items():
+                ws.append([
+                    rfc,
+                    cliente.get('razon_social', ''),
+                    cliente.get('regimen_fiscal', ''),
+                    cliente.get('uso_cfdi', ''),
+                    cliente.get('codigo_postal', ''),
+                    cliente.get('direccion_fiscal', ''),
+                    cliente.get('estado', ''),
+                    cliente.get('ciudad', ''),
+                    cliente.get('municipio', ''),
+                    cliente.get('colonia', ''),
+                    cliente.get('telefono', ''),
+                    cliente.get('correo', '')
+                ])
+            
+            wb.save(ruta)
+            return (True, f"Clientes exportados exitosamente: {ruta}")
+        
+        except Exception as e:
+            return (False, f"Error al exportar clientes a XLSX: {str(e)}")
+    
+    def importar_clientes_xlsx(self, ruta: str, sobrescribir: bool = False) -> Tuple[bool, str]:
+        """Importa clientes desde un archivo XLSX"""
+        try:
+            if not os.path.exists(ruta):
+                return (False, f"Archivo no encontrado: {ruta}")
+            
+            clientes_importados = 0
+            clientes_omitidos = 0
+            errores = []
+            
+            wb = load_workbook(ruta)
+            ws = wb.active
+            
+            # Obtener encabezados
+            headers = [cell.value for cell in ws[1]]
+            
+            # Validar campos mínimos
+            campos_requeridos = ['RFC', 'Razon Social']
+            if not all(campo in headers for campo in campos_requeridos):
+                return (False, f"El XLSX debe contener los campos: {', '.join(campos_requeridos)}")
+            
+            # Procesar filas
+            for i, row in enumerate(ws.iter_rows(min_row=2, values_only=True), start=2):
+                try:
+                    # Crear diccionario de fila
+                    fila = dict(zip(headers, row))
+                    
+                    rfc = str(fila.get('RFC', '')).strip().upper() if fila.get('RFC') else ''
+                    razon_social = str(fila.get('Razon Social', '')).strip() if fila.get('Razon Social') else ''
+                    codigo_postal = str(fila.get('Codigo Postal', '')).strip() if fila.get('Codigo Postal') else ''
+                    
+                    # Validaciones
+                    if not rfc:
+                        errores.append(f"Línea {i}: RFC vacío")
+                        clientes_omitidos += 1
+                        continue
+                    
+                    if not validar_rfc(rfc) and rfc.upper() != 'XAXX010101000':
+                        errores.append(f"Línea {i}: RFC inválido")
+                        clientes_omitidos += 1
+                        continue
+                    
+                    if not razon_social:
+                        errores.append(f"Línea {i}: Razón social vacía")
+                        clientes_omitidos += 1
+                        continue
+                    
+                    # Importar cliente
+                    if sobrescribir or rfc not in self.clientes:
+                        self.clientes[rfc] = {
+                            'razon_social': razon_social,
+                            'regimen_fiscal': str(fila.get('Regimen Fiscal', '')).strip() if fila.get('Regimen Fiscal') else '',
+                            'uso_cfdi': str(fila.get('Uso CFDI', '')).strip() if fila.get('Uso CFDI') else '',
+                            'codigo_postal': codigo_postal,
+                            'direccion_fiscal': str(fila.get('Direccion Fiscal', '')).strip() if fila.get('Direccion Fiscal') else '',
+                            'estado': str(fila.get('Estado', '')).strip() if fila.get('Estado') else '',
+                            'ciudad': str(fila.get('Ciudad', '')).strip() if fila.get('Ciudad') else '',
+                            'municipio': str(fila.get('Municipio', '')).strip() if fila.get('Municipio') else '',
+                            'colonia': str(fila.get('Colonia', '')).strip() if fila.get('Colonia') else '',
+                            'telefono': str(fila.get('Telefono', '')).strip() if fila.get('Telefono') else '',
+                            'correo': str(fila.get('Correo', '')).strip() if fila.get('Correo') else '',
+                            'fecha_registro': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+                            'fecha_actualizacion': datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                        }
+                        clientes_importados += 1
+                    else:
+                        clientes_omitidos += 1
+                        
+                except Exception as e:
+                    errores.append(f"Línea {i}: Error procesando fila - {str(e)}")
+                    clientes_omitidos += 1
+            
+            if clientes_importados > 0:
+                self.guardar_clientes()
+            
+            mensaje = f"Importación XLSX completada: {clientes_importados} clientes importados, {clientes_omitidos} omitidos"
+            if errores:
+                mensaje += f"\nErrores encontrados:\n" + "\n".join(errores[:10])
+            
+            return (True if clientes_importados > 0 else False, mensaje)
+        
+        except Exception as e:
+            return (False, f"Error al importar XLSX: {str(e)}")
 
 
 class GeneradorReportes:
